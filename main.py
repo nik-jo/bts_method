@@ -1,15 +1,21 @@
 import statsapi
-import pprint
 
-# games = statsapi.schedule(start_date='01/01/2021',end_date='04/19/2021')
-# for x in games:
-#     print(x)
-
-box = statsapi.boxscore(642138, timecode=None,fieldingInfo=False,pitchingBox=False,gameInfo=False, battingInfo=False)
-box = statsapi.boxscore_data(642138, timecode=None)
-pp = pprint.PrettyPrinter(indent=4)
-d = box.get('homeBatters')
-temp = list()
-for x in d:
-    temp.append([])
-print(pp.pprint(d))
+# Change start_date and end_date to get the games you want
+games = statsapi.schedule(start_date='04/01/2021', end_date='04/01/2021')
+for game in games:
+    print(game)
+    box = statsapi.boxscore_data(game.get('game_id'), timecode=None)
+    d_home = box.get('homeBatters')
+    temp = list()
+    for x in d_home:
+        if x.get('ab').isnumeric():
+            if 0 < int(x.get('ab')) < 9:
+                temp.append([d_home[0].get('name').replace(' Batters', ''), 'home', x.get('personId'), x.get('name'), x.get('battingOrder'), x.get('ab'), x.get('h')])
+    print(temp)
+    d_away = box.get('awayBatters')
+    temp = list()
+    for x in d_away:
+        if x.get('ab').isnumeric():
+            if 0 < int(x.get('ab')) < 9:
+                temp.append([d_away[0].get('name').replace(' Batters', ''), 'away', x.get('personId'), x.get('name'), x.get('battingOrder'), x.get('ab'), x.get('h')])
+    print(temp)
