@@ -6,6 +6,7 @@ for game in games:
     print(game)
     box = statsapi.boxscore_data(game.get('game_id'), timecode=None)
     d_home = box.get('homeBatters')
+    print(d_home)
     temp = list()
     for x in d_home:
         if x.get('ab').isnumeric():
